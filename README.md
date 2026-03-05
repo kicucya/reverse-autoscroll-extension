@@ -15,6 +15,7 @@ A Chrome extension that reproduces native middle-click autoscroll feel and force
 ## Scope and Limitations
 - Works on normal pages: `http://*/*` and `https://*/*`
 - Does not run on restricted pages like `chrome://*` and Chrome Web Store
+- If you want to disable it on specific sites, use Chrome's built-in site access control in `chrome://extensions` for this extension.
 
 ## Installation (Developer Mode)
 1. Open `chrome://extensions`
@@ -28,8 +29,12 @@ A Chrome extension that reproduces native middle-click autoscroll feel and force
 - Homepage: `https://github.com/kicucya/reverse-autoscroll-extension`
 
 ## Privacy
-This extension does not collect, store, or transmit any user data. All settings are stored locally using Chrome's sync storage API.
+This extension does not collect or transmit user data to any developer-owned server.
+Settings are saved in Chrome Storage (`chrome.storage.sync`) and may sync across your signed-in Chrome browsers depending on your sync settings.
+
+## Permissions
+- `storage`: save your reverse-direction preferences (`reverseX` and `reverseY`).
+- Site access on `http://*/*` and `https://*/*`: required to handle middle-click autoscroll behavior directly on web pages.
 
 ## License
 MIT. See [LICENSE](./LICENSE).
-
