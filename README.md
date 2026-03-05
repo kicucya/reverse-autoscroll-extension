@@ -29,3 +29,4 @@ A Chrome extension that reproduces native middle-click autoscroll feel and force
 
 ## License
 MIT. See [LICENSE](./LICENSE).
+
