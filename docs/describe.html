@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse AutoScroll Showcase</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --dummy-bg: #f8f9fa;
+            --dummy-text: #e9ecef;
+            --dummy-accent: #dee2e6;
+            --panel-bg: rgba(25, 27, 31, 0.85);
+            --panel-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #a0aab5;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .screenshot-canvas {
+            width: 1280px;
+            height: 800px;
+            background-color: var(--dummy-bg);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ----- 假网页背景 ----- */
+        .dummy-page {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0.8;
+        }
+
+        .dummy-header {
+            height: 64px;
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--dummy-accent);
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            gap: 20px;
+        }
+
+        .dummy-logo {
+            width: 120px;
+            height: 24px;
+            background-color: var(--dummy-accent);
+            border-radius: 4px;
+        }
+
+        .dummy-nav-items {
+            display: flex;
+            gap: 16px;
+            margin-left: auto;
+        }
+
+        .dummy-nav-item {
+            width: 80px;
+            height: 16px;
+            background-color: var(--dummy-text);
+            border-radius: 4px;
+        }
+
+        .dummy-body {
+            display: flex;
+            flex: 1;
+            padding: 40px;
+            gap: 40px;
+            background-color: #ffffff;
+        }
+
+        .dummy-main {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .dummy-title {
+            width: 60%;
+            height: 40px;
+            background-color: var(--dummy-text);
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .dummy-image {
+            width: 100%;
+            height: 300px;
+            background-color: var(--dummy-text);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .dummy-line {
+            height: 16px;
+            background-color: var(--dummy-accent);
+            border-radius: 4px;
+        }
+
+        .w-full { width: 100%; }
+        .w-5-6 { width: 83%; }
+        .w-4-6 { width: 66%; }
+        .w-3-4 { width: 75%; }
+
+        .dummy-sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .dummy-widget {
+            width: 100%;
+            height: 200px;
+            background-color: var(--dummy-text);
+            border-radius: 12px;
+        }
+
+        /* ----- 遮罩面板 ----- */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .glass-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 60px 80px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-main);
+            width: 760px;
+            box-sizing: border-box;
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .panel-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 0 0 16px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .panel-subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* ----- 核心布局：指示器 + 设置 ----- */
+        .showcase-layout {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        /* 方向指示器（复刻 content.js 中的样式） */
+        .scroll-indicator {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(80, 80, 80, 0.92);
+            background: rgba(255, 255, 255, 0.86);
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.7) inset, 0 2px 12px rgba(0,0,0,0.28);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .scroll-indicator .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        .scroll-indicator .arrow-up {
+            left: 50%;
+            top: 14px;
+            transform: translateX(-50%);
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 22px solid rgba(80, 80, 80, 0.95);
+        }
+
+        .scroll-indicator .arrow-down {
+            left: 50%;
+            bottom: 14px;
+            transform: translateX(-50%);
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-top: 22px solid rgba(80, 80, 80, 0.95);
+        }
+
+        .scroll-indicator .arrow-left {
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            border-right: 22px solid rgba(80, 80, 80, 0.95);
+        }
+
+        .scroll-indicator .arrow-right {
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            border-left: 22px solid rgba(80, 80, 80, 0.95);
+        }
+
+        /* ----- 设置面板（复刻 popup.html 样式） ----- */
+        .popup-replica {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px 24px;
+            width: 260px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.08);
+        }
+
+        .popup-replica h3 {
+            margin: 0 0 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .popup-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .popup-option:last-child {
+            margin-bottom: 0;
+        }
+
+        .popup-option-label {
+            font-size: 14px;
+            color: #333;
+            user-select: none;
+        }
+
+        .popup-toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+
+        .popup-toggle .track {
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            transition: background 0.2s;
+        }
+
+        .popup-toggle .track.on {
+            background: #4285f4;
+        }
+
+        .popup-toggle .track.off {
+            background: #ccc;
+        }
+
+        .popup-toggle .knob {
+            position: absolute;
+            top: 2px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            transition: left 0.2s;
+        }
+
+        .popup-toggle .track.on .knob {
+            left: 22px;
+        }
+
+        .popup-toggle .track.off .knob {
+            left: 2px;
+        }
+
+        /* ----- 底部标签 ----- */
+        .badge-container {
+            margin-top: 50px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .feature-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #ced4da;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="screenshot-canvas">
+
+        <!-- 背景：假网页 -->
+        <div class="dummy-page">
+            <header class="dummy-header">
+                <div class="dummy-logo"></div>
+                <div class="dummy-nav-items">
+                    <div class="dummy-nav-item"></div>
+                    <div class="dummy-nav-item"></div>
+                    <div class="dummy-nav-item"></div>
+                </div>
+            </header>
+            <div class="dummy-body">
+                <main class="dummy-main">
+                    <div class="dummy-title"></div>
+                    <div class="dummy-line w-full"></div>
+                    <div class="dummy-line w-5-6"></div>
+                    <div class="dummy-image"></div>
+                    <div class="dummy-line w-full"></div>
+                    <div class="dummy-line w-4-6"></div>
+                    <div class="dummy-line w-3-4"></div>
+                </main>
+                <aside class="dummy-sidebar">
+                    <div class="dummy-widget"></div>
+                    <div class="dummy-widget" style="height: 150px;"></div>
+                </aside>
+            </div>
+        </div>
+
+        <!-- 前景：展示面板 -->
+        <div class="overlay">
+            <div class="glass-panel">
+
+                <div class="panel-header">
+                    <h1 class="panel-title">Reverse AutoScroll</h1>
+                    <p class="panel-subtitle">Fully customizable middle-click scrolling for Chrome.</p>
+                </div>
+
+                <div class="showcase-layout">
+                    <!-- 左侧：方向指示器（复刻 content.js 中的滚动图标） -->
+                    <div class="scroll-indicator">
+                        <div class="arrow arrow-up"></div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="arrow arrow-left"></div>
+                        <div class="arrow arrow-right"></div>
+                    </div>
+
+                    <!-- 右侧：设置面板（复刻 popup.html 样式） -->
+                    <div class="popup-replica">
+                        <h3>Reverse AutoScroll</h3>
+                        <div class="popup-option">
+                            <span class="popup-option-label">Reverse Vertical</span>
+                            <div class="popup-toggle">
+                                <div class="track on"><div class="knob"></div></div>
+                            </div>
+                        </div>
+                        <div class="popup-option">
+                            <span class="popup-option-label">Reverse Horizontal</span>
+                            <div class="popup-toggle">
+                                <div class="track off"><div class="knob"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="badge-container">
+                    <div class="feature-badge">✓ Configurable</div>
+                    <div class="feature-badge">✓ Independent Axis Control</div>
+                    <div class="feature-badge">✓ Real-time Toggle</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

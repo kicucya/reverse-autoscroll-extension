@@ -1,6 +1,6 @@
 # Reverse AutoScroll Extension
 
-[English](./README.md) | [简体中文](./README_zh.md) | [日本語](./README_ja.md)
+[English](../README.md) | [简体中文](./README_zh.md) | [日本語](./README_ja.md)
 
 ネイティブの中クリック自動スクロールに近い操作感を再現しつつ、スクロール方向を強制的に反転する Chrome 拡張です。`macOS natural scrolling` のような方向感を求めるユーザー向けです。
 
@@ -28,5 +28,5 @@
 - リポジトリ: `https://github.com/kicucya/reverse-autoscroll-extension`
 
 ## ライセンス
-MIT。詳細は [LICENSE](./LICENSE) を参照してください。
+MIT。詳細は [LICENSE](../LICENSE) を参照してください。
 

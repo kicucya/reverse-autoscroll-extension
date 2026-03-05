@@ -1,6 +1,6 @@
 # Reverse AutoScroll Extension
 
-[English](./README.md) | [简体中文](./README_zh.md) | [日本語](./README_ja.md)
+[English](./README.md) | [简体中文](./docs/README_zh.md) | [日本語](./docs/README_ja.md)
 
 A Chrome extension that reproduces native middle-click autoscroll feel and forces the scroll direction to be reversed, useful for users who want a `macOS natural scrolling`-like direction on middle-click autoscroll.
 
