@@ -12,3 +12,6 @@ Thumbs.db
 # Build/package artifacts
 *.zip
 dist/
+
+# Local icon source asset (do not commit large source file)
+icons/icon-source.png
