@@ -25,7 +25,8 @@
 ## 開発情報
 - メインスクリプト: `content.js`
 - マニフェスト: `manifest.json`
-- リポジトリ: `https://github.com/lyuro/reverse-autoscroll-extension`
+- リポジトリ: `https://github.com/kicucya/reverse-autoscroll-extension`
 
 ## ライセンス
 MIT。詳細は [LICENSE](./LICENSE) を参照してください。
+

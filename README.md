@@ -25,7 +25,8 @@ A Chrome extension that reproduces native middle-click autoscroll feel and force
 ## Development
 - Main script: `content.js`
 - Manifest: `manifest.json`
-- Homepage: `https://github.com/lyuro/reverse-autoscroll-extension`
+- Homepage: `https://github.com/kicucya/reverse-autoscroll-extension`
 
 ## License
 MIT. See [LICENSE](./LICENSE).
+

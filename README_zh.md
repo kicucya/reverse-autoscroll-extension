@@ -25,7 +25,8 @@
 ## 开发说明
 - 主逻辑文件：`content.js`
 - 扩展清单：`manifest.json`
-- 项目主页：`https://github.com/lyuro/reverse-autoscroll-extension`
+- 项目主页：`https://github.com/kicucya/reverse-autoscroll-extension`
 
 ## 许可证
 MIT，详见 [LICENSE](./LICENSE)。
+
