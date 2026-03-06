@@ -20,7 +20,8 @@
     reverseY = settings.reverseY;
   });
 
-  chrome.storage.onChanged.addListener((changes) => {
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== 'sync') return;
     if (changes.reverseX != null) reverseX = changes.reverseX.newValue;
     if (changes.reverseY != null) reverseY = changes.reverseY.newValue;
   });
@@ -35,6 +36,7 @@
   let lastFrameTs = 0;
   let rafId = 0;
   let indicator = null;
+  let previousRootCursor = '';
 
   function createIndicator(x, y) {
     const el = document.createElement('div');
@@ -170,6 +172,7 @@
     velocityY = 0;
     lastFrameTs = 0;
     indicator = createIndicator(clientX, clientY);
+    previousRootCursor = document.documentElement.style.cursor;
     document.documentElement.style.cursor = 'all-scroll';
     rafId = requestAnimationFrame(tick);
   }
@@ -188,7 +191,8 @@
     velocityY = 0;
     lastFrameTs = 0;
     removeIndicator();
-    document.documentElement.style.cursor = '';
+    document.documentElement.style.cursor = previousRootCursor;
+    previousRootCursor = '';
   }
 
   function onMouseDown(e) {
