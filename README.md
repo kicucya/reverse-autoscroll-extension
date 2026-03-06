@@ -27,6 +27,9 @@ A Chrome extension that reproduces native middle-click autoscroll feel and force
 - Manifest: `manifest.json`
 - Homepage: `https://github.com/kicucya/reverse-autoscroll-extension`
 
+## Privacy
+This extension does not collect, store, or transmit any user data. All settings are stored locally using Chrome's sync storage API.
+
 ## License
 MIT. See [LICENSE](./LICENSE).
 
