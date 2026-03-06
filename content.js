@@ -12,6 +12,19 @@
   const SPEED_HARD_MAX = 32000;
   const PIXEL_EPSILON = 0.02;
 
+  let reverseX = false;
+  let reverseY = true;
+
+  chrome.storage.sync.get({ reverseX: false, reverseY: true }, (settings) => {
+    reverseX = settings.reverseX;
+    reverseY = settings.reverseY;
+  });
+
+  chrome.storage.onChanged.addListener((changes) => {
+    if (changes.reverseX != null) reverseX = changes.reverseX.newValue;
+    if (changes.reverseY != null) reverseY = changes.reverseY.newValue;
+  });
+
   let active = false;
   let anchorX = 0;
   let anchorY = 0;
@@ -110,10 +123,11 @@
   }
 
   function getTargetVelocity(dx, dy) {
-    // Reverse direction: pointer-down means page-up and vice versa.
+    const signX = reverseX ? -1 : 1;
+    const signY = reverseY ? -1 : 1;
     return {
-      vx: -getAxisVelocity(dx),
-      vy: -getAxisVelocity(dy)
+      vx: signX * getAxisVelocity(dx),
+      vy: signY * getAxisVelocity(dy)
     };
   }
 
