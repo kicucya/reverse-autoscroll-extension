@@ -1,6 +1,6 @@
 # Reverse AutoScroll Extension
 
-[English](./README.md) | [简体中文](./README_zh.md) | [日本語](./README_ja.md)
+[English](../README.md) | [简体中文](./README_zh.md) | [日本語](./README_ja.md)
 
 一个 Chrome 扩展：尽量复刻原生中键自动滚动手感，并强制反转滚动方向。也适合搜索 `macOS natural scrolling` 相关需求的用户。
 
@@ -28,5 +28,5 @@
 - 项目主页：`https://github.com/kicucya/reverse-autoscroll-extension`
 
 ## 许可证
-MIT，详见 [LICENSE](./LICENSE)。
+MIT，详见 [LICENSE](../LICENSE)。
 
