@@ -1,0 +1,22 @@
+{
+  "extName": {
+    "message": "Reverse AutoScroll",
+    "description": "The name of the extension"
+  },
+  "extDescription": {
+    "message": "일반 웹 페이지에서 휠 클릭으로 방향이 반전된 자동 스크롤을 사용합니다.",
+    "description": "Description shown in Chrome Web Store and extensions page"
+  },
+  "popupTitle": {
+    "message": "Reverse AutoScroll",
+    "description": "Title at the top of the popup window"
+  },
+  "reverseVertical": {
+    "message": "세로 방향 반전",
+    "description": "Label for the toggle that reverses vertical scroll direction"
+  },
+  "reverseHorizontal": {
+    "message": "가로 방향 반전",
+    "description": "Label for the toggle that reverses horizontal scroll direction"
+  }
+}

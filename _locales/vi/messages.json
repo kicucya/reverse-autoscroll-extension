@@ -1,0 +1,22 @@
+{
+  "extName": {
+    "message": "Reverse AutoScroll - Cuộn ngược",
+    "description": "The name of the extension"
+  },
+  "extDescription": {
+    "message": "Tự động cuộn ngược hướng bằng nhấp chuột giữa trên các trang web thông thường.",
+    "description": "Description shown in Chrome Web Store and extensions page"
+  },
+  "popupTitle": {
+    "message": "Reverse AutoScroll - Cuộn ngược",
+    "description": "Title at the top of the popup window"
+  },
+  "reverseVertical": {
+    "message": "Đảo ngược cuộn dọc",
+    "description": "Label for the toggle that reverses vertical scroll direction"
+  },
+  "reverseHorizontal": {
+    "message": "Đảo ngược cuộn ngang",
+    "description": "Label for the toggle that reverses horizontal scroll direction"
+  }
+}

@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Reverse AutoScroll",
-  "version": "1.1.0",
-  "description": "Middle-click autoscroll with reversed direction on regular web pages.",
+  "name": "__MSG_extName__",
+  "version": "1.2.0",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "homepage_url": "https://github.com/kicucya/reverse-autoscroll-extension",
   "minimum_chrome_version": "114",
   "permissions": ["storage"],
