@@ -1,0 +1,22 @@
+{
+  "extName": {
+    "message": "反轉自動捲動",
+    "description": "The name of the extension"
+  },
+  "extDescription": {
+    "message": "在一般網頁上使用滑鼠中鍵進行反向自動捲動。",
+    "description": "Description shown in Chrome Web Store and extensions page"
+  },
+  "popupTitle": {
+    "message": "反轉自動捲動",
+    "description": "Title at the top of the popup window"
+  },
+  "reverseVertical": {
+    "message": "反轉垂直方向",
+    "description": "Label for the toggle that reverses vertical scroll direction"
+  },
+  "reverseHorizontal": {
+    "message": "反轉水平方向",
+    "description": "Label for the toggle that reverses horizontal scroll direction"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "extName": {
+    "message": "Reverse AutoScroll",
+    "description": "The name of the extension"
+  },
+  "extDescription": {
+    "message": "Rolagem automática com direção invertida ao clicar com o botão do meio em páginas web.",
+    "description": "Description shown in Chrome Web Store and extensions page"
+  },
+  "popupTitle": {
+    "message": "Reverse AutoScroll",
+    "description": "Title at the top of the popup window"
+  },
+  "reverseVertical": {
+    "message": "Inverter Vertical",
+    "description": "Label for the toggle that reverses vertical scroll direction"
+  },
+  "reverseHorizontal": {
+    "message": "Inverter Horizontal",
+    "description": "Label for the toggle that reverses horizontal scroll direction"
+  }
+}
