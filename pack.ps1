@@ -18,7 +18,8 @@ $Include = @(
     "popup.js",
     "LICENSE",
     "README.md",
-    "icons"
+    "icons",
+    "_locales"
 )
 
 # Create temp folder

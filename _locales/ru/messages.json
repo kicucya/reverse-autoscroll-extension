@@ -1,0 +1,22 @@
+{
+  "extName": {
+    "message": "Reverse AutoScroll",
+    "description": "The name of the extension"
+  },
+  "extDescription": {
+    "message": "Автопрокрутка средней кнопкой мыши с обратным направлением на веб-страницах.",
+    "description": "Description shown in Chrome Web Store and extensions page"
+  },
+  "popupTitle": {
+    "message": "Reverse AutoScroll",
+    "description": "Title at the top of the popup window"
+  },
+  "reverseVertical": {
+    "message": "Обратная вертикальная",
+    "description": "Label for the toggle that reverses vertical scroll direction"
+  },
+  "reverseHorizontal": {
+    "message": "Обратная горизонтальная",
+    "description": "Label for the toggle that reverses horizontal scroll direction"
+  }
+}

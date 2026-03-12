@@ -31,7 +31,7 @@
     width: 36px;
     height: 20px;
     flex-shrink: 0;
-    margin-left: 12px;
+    margin-inline-start: 12px;
   }
   .toggle input {
     opacity: 0;
@@ -63,19 +63,22 @@
   .toggle input:checked + .slider::before {
     transform: translateX(16px);
   }
+  [dir="rtl"] .toggle input:checked + .slider::before {
+    transform: translateX(-16px);
+  }
 </style>
 </head>
 <body>
-  <h3>Reverse AutoScroll</h3>
+  <h3 data-i18n="popupTitle">Reverse AutoScroll</h3>
   <div class="option">
-    <label for="reverseY">Reverse Vertical</label>
+    <label for="reverseY" data-i18n="reverseVertical">Reverse Vertical</label>
     <label class="toggle">
       <input type="checkbox" id="reverseY">
       <span class="slider"></span>
     </label>
   </div>
   <div class="option">
-    <label for="reverseX">Reverse Horizontal</label>
+    <label for="reverseX" data-i18n="reverseHorizontal">Reverse Horizontal</label>
     <label class="toggle">
       <input type="checkbox" id="reverseX">
       <span class="slider"></span>
