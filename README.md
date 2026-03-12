@@ -17,7 +17,11 @@ A Chrome extension that reproduces native middle-click autoscroll feel and force
 - Does not run on restricted pages like `chrome://*` and Chrome Web Store
 - If you want to disable it on specific sites, use Chrome's built-in site access control in `chrome://extensions` for this extension.
 
-## Installation (Developer Mode)
+## Install
+
+**[Chrome Web Store](https://chromewebstore.google.com/detail/reverse-autoscroll/odpdphjknpipbmkhepbaloflincdafjm)**
+
+### Developer Mode
 1. Open `chrome://extensions`
 2. Enable **Developer mode**
 3. Click **Load unpacked**
