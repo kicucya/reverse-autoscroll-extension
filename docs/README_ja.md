@@ -16,7 +16,11 @@
 - 通常ページのみ対応: `http://*/*`、`https://*/*`
 - 制限ページは非対応: `chrome://*`、Chrome ウェブストアなど
 
-## インストール（デベロッパーモード）
+## インストール
+
+**[Chrome ウェブストア](https://chromewebstore.google.com/detail/reverse-autoscroll/odpdphjknpipbmkhepbaloflincdafjm)**
+
+### デベロッパーモード
 1. `chrome://extensions` を開く
 2. デベロッパーモードを有効化
 3. 「パッケージ化されていない拡張機能を読み込む」をクリック

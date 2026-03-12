@@ -16,10 +16,14 @@
 - 支持普通网页：`http://*/*`、`https://*/*`
 - 不支持受限页面：`chrome://*`、Chrome 网上应用店等
 
-## 安装（开发者模式）
+## 安装
+
+**[Chrome 网上应用店](https://chromewebstore.google.com/detail/reverse-autoscroll/odpdphjknpipbmkhepbaloflincdafjm)**
+
+### 开发者模式
 1. 打开 `chrome://extensions`
-2. 开启“开发者模式”
-3. 点击“加载已解压的扩展程序”
+2. 开启”开发者模式”
+3. 点击”加载已解压的扩展程序”
 4. 选择本项目文件夹
 
 ## 开发说明
