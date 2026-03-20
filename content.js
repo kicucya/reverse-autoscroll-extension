@@ -37,6 +37,7 @@
   let rafId = 0;
   let indicator = null;
   let previousRootCursor = '';
+  let scrollTarget = null; // The element to scroll (can be a container or documentElement)
 
   function createIndicator(x, y) {
     const el = document.createElement('div');
@@ -108,6 +109,34 @@
     indicator = null;
   }
 
+  // Find the nearest scrollable element from the click target
+  function findScrollableElement(elem) {
+    while (elem && elem !== document.body && elem !== document.documentElement) {
+      // Skip interactive elements
+      const tag = elem.tagName;
+      if (tag === 'A' || tag === 'BUTTON' || tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') {
+        elem = elem.parentElement;
+        continue;
+      }
+
+      const style = window.getComputedStyle(elem);
+      const overflowX = style.overflowX;
+      const overflowY = style.overflowY;
+
+      const canScrollX = elem.scrollWidth > elem.clientWidth && (overflowX === 'auto' || overflowX === 'scroll');
+      const canScrollY = elem.scrollHeight > elem.clientHeight && (overflowY === 'auto' || overflowY === 'scroll');
+
+      if (canScrollX || canScrollY) {
+        return elem;
+      }
+
+      elem = elem.parentElement;
+    }
+
+    // Fallback to documentElement (for window scrolling)
+    return document.documentElement;
+  }
+
   function getAxisVelocity(deltaCssPx) {
     const dpr = Math.max(1, window.devicePixelRatio || 1);
     const delta = deltaCssPx / dpr;
@@ -155,13 +184,29 @@
     const scrollX = velocityX * dt;
     const scrollY = velocityY * dt;
     if (Math.abs(scrollX) > PIXEL_EPSILON || Math.abs(scrollY) > PIXEL_EPSILON) {
-      window.scrollBy(scrollX, scrollY);
+      // Directly modify scrollLeft/scrollTop to bypass CSS scroll-behavior: smooth
+      if (scrollTarget && scrollTarget !== document.documentElement && scrollTarget !== document.body) {
+        scrollTarget.scrollLeft += scrollX;
+        scrollTarget.scrollTop += scrollY;
+      } else {
+        // For page-level scrolling - try multiple methods for cross-platform compatibility
+        const oldX = window.scrollX;
+        const oldY = window.scrollY;
+        window.scrollBy({ left: scrollX, top: scrollY, behavior: 'instant' });
+        // Fallback: if window.scrollBy didn't work, try direct property manipulation
+        if (window.scrollX === oldX && window.scrollY === oldY) {
+          document.documentElement.scrollTop += scrollY;
+          document.documentElement.scrollLeft += scrollX;
+          document.body.scrollTop += scrollY;
+          document.body.scrollLeft += scrollX;
+        }
+      }
     }
 
     rafId = requestAnimationFrame(tick);
   }
 
-  function start(clientX, clientY) {
+  function start(clientX, clientY, targetElement) {
     stop();
     active = true;
     anchorX = clientX;
@@ -171,6 +216,7 @@
     velocityX = 0;
     velocityY = 0;
     lastFrameTs = 0;
+    scrollTarget = findScrollableElement(targetElement || document.elementFromPoint(clientX, clientY));
     indicator = createIndicator(clientX, clientY);
     previousRootCursor = document.documentElement.style.cursor;
     document.documentElement.style.cursor = 'all-scroll';
@@ -190,10 +236,14 @@
     velocityX = 0;
     velocityY = 0;
     lastFrameTs = 0;
+    scrollTarget = null;
     removeIndicator();
     document.documentElement.style.cursor = previousRootCursor;
     previousRootCursor = '';
   }
+
+  // Track if we triggered via Shift+click to avoid toggling on mouseup
+  let triggeredByShiftClick = false;
 
   function onMouseDown(e) {
     if (e.button === 1) {
@@ -203,12 +253,28 @@
       return;
     }
 
+    // Shift + Left click as alternative trigger for Mac/Linux trackpad users
+    if (e.button === 0 && e.shiftKey && !active) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      triggeredByShiftClick = true;
+      start(e.clientX, e.clientY, e.target);
+      return;
+    }
+
     if (active) {
       stop();
+      triggeredByShiftClick = false;
     }
   }
 
   function onMouseUp(e) {
+    // Handle Shift+click release - don't stop on the same click that started
+    if (e.button === 0 && triggeredByShiftClick) {
+      triggeredByShiftClick = false;
+      return;
+    }
+
     if (e.button !== 1) {
       return;
     }
@@ -219,7 +285,7 @@
     if (active) {
       stop();
     } else {
-      start(e.clientX, e.clientY);
+      start(e.clientX, e.clientY, e.target);
     }
   }
 
@@ -235,10 +301,29 @@
     }
   }
 
+  // Handle auxclick to prevent default middle-click behavior on Mac/Linux
+  // (e.g., paste on X11, or browser-level actions)
+  function onAuxClick(e) {
+    if (e.button === 1) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }
+
+  // Prevent click event for middle button (some browsers may still fire it)
+  function onClick(e) {
+    if (e.button === 1) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }
+
   document.addEventListener('mousedown', onMouseDown, { capture: true, passive: false });
   document.addEventListener('mouseup', onMouseUp, { capture: true, passive: false });
   document.addEventListener('mousemove', onMouseMove, { capture: true, passive: true });
   document.addEventListener('keydown', onKeyDown, { capture: true });
+  document.addEventListener('auxclick', onAuxClick, { capture: true, passive: false });
+  document.addEventListener('click', onClick, { capture: true, passive: false });
 
   window.addEventListener('blur', stop);
 })();
