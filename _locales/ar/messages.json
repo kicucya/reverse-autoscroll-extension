@@ -18,5 +18,9 @@
   "reverseHorizontal": {
     "message": "عكس التمرير الأفقي",
     "description": "Label for the toggle that reverses horizontal scroll direction"
+  },
+  "altClickEnabled": {
+    "message": "Alt+النقر للتمرير",
+    "description": "Label for the toggle that enables Alt+Click as an alternative way to trigger autoscroll"
   }
 }

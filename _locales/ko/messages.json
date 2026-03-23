@@ -18,5 +18,9 @@
   "reverseHorizontal": {
     "message": "가로 방향 반전",
     "description": "Label for the toggle that reverses horizontal scroll direction"
+  },
+  "altClickEnabled": {
+    "message": "Alt+클릭으로 스크롤",
+    "description": "Label for the toggle that enables Alt+Click as an alternative way to trigger autoscroll"
   }
 }

@@ -18,5 +18,9 @@
   "reverseHorizontal": {
     "message": "Đảo ngược cuộn ngang",
     "description": "Label for the toggle that reverses horizontal scroll direction"
+  },
+  "altClickEnabled": {
+    "message": "Alt+Nhấp để cuộn",
+    "description": "Label for the toggle that enables Alt+Click as an alternative way to trigger autoscroll"
   }
 }

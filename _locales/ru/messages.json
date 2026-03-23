@@ -18,5 +18,9 @@
   "reverseHorizontal": {
     "message": "Обратная горизонтальная",
     "description": "Label for the toggle that reverses horizontal scroll direction"
+  },
+  "altClickEnabled": {
+    "message": "Alt+клик для прокрутки",
+    "description": "Label for the toggle that enables Alt+Click as an alternative way to trigger autoscroll"
   }
 }
