@@ -18,5 +18,9 @@
   "reverseHorizontal": {
     "message": "กลับทิศแนวนอน",
     "description": "Label for the toggle that reverses horizontal scroll direction"
+  },
+  "altClickEnabled": {
+    "message": "Alt+คลิกเพื่อเลื่อน",
+    "description": "Label for the toggle that enables Alt+Click as an alternative way to trigger autoscroll"
   }
 }

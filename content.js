@@ -14,16 +14,19 @@
 
   let reverseX = false;
   let reverseY = true;
+  let altClickEnabled = false;
 
-  chrome.storage.sync.get({ reverseX: false, reverseY: true }, (settings) => {
+  chrome.storage.sync.get({ reverseX: false, reverseY: true, altClickEnabled: false }, (settings) => {
     reverseX = settings.reverseX;
     reverseY = settings.reverseY;
+    altClickEnabled = settings.altClickEnabled;
   });
 
   chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName !== 'sync') return;
     if (changes.reverseX != null) reverseX = changes.reverseX.newValue;
     if (changes.reverseY != null) reverseY = changes.reverseY.newValue;
+    if (changes.altClickEnabled != null) altClickEnabled = changes.altClickEnabled.newValue;
   });
 
   let active = false;
@@ -223,12 +226,16 @@
     rafId = requestAnimationFrame(tick);
   }
 
+  // Track if we triggered via Alt+click to avoid toggling on mouseup
+  let triggeredByAltClick = false;
+
   function stop() {
     if (!active) {
       return;
     }
 
     active = false;
+    triggeredByAltClick = false;
     if (rafId) {
       cancelAnimationFrame(rafId);
       rafId = 0;
@@ -242,9 +249,6 @@
     previousRootCursor = '';
   }
 
-  // Track if we triggered via Shift+click to avoid toggling on mouseup
-  let triggeredByShiftClick = false;
-
   function onMouseDown(e) {
     if (e.button === 1) {
       // Fully take over middle-click to suppress native autoscroll UI/logic.
@@ -253,25 +257,25 @@
       return;
     }
 
-    // Shift + Left click as alternative trigger for Mac/Linux trackpad users
-    if (e.button === 0 && e.shiftKey && !active) {
+    // Alt + Left click as alternative trigger for Mac/Linux trackpad users
+    if (e.button === 0 && e.altKey && !active && altClickEnabled) {
       e.preventDefault();
       e.stopImmediatePropagation();
-      triggeredByShiftClick = true;
+      triggeredByAltClick = true;
       start(e.clientX, e.clientY, e.target);
       return;
     }
 
     if (active) {
       stop();
-      triggeredByShiftClick = false;
+      triggeredByAltClick = false;
     }
   }
 
   function onMouseUp(e) {
-    // Handle Shift+click release - don't stop on the same click that started
-    if (e.button === 0 && triggeredByShiftClick) {
-      triggeredByShiftClick = false;
+    // Handle Alt+click release - don't stop on the same click that started
+    if (e.button === 0 && triggeredByAltClick) {
+      triggeredByAltClick = false;
       return;
     }
 

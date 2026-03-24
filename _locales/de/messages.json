@@ -18,5 +18,9 @@
   "reverseHorizontal": {
     "message": "Horizontal umkehren",
     "description": "Label for the toggle that reverses horizontal scroll direction"
+  },
+  "altClickEnabled": {
+    "message": "Alt+Klick zum Scrollen",
+    "description": "Label for the toggle that enables Alt+Click as an alternative way to trigger autoscroll"
   }
 }
